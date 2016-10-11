@@ -1,6 +1,7 @@
 FROM ubuntu:14.04.5
 MAINTAINER Peerasan Buranasanti <peerasan@gmail.com>
 
+# PHP7
 # Surpress Upstart errors/warning
 RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -sf /bin/true /sbin/initctl
