@@ -1,4 +1,4 @@
-FROM ubuntu:14.04.5
+FROM ubuntu:16.04:latest
 MAINTAINER Peerasan Buranasanti <peerasan@gmail.com>
 
 # php7.0
@@ -15,7 +15,7 @@ add-apt-repository ppa:nginx/$nginx && \
 apt-get update && \
 apt-get upgrade -y && \
 BUILD_PACKAGES="supervisor openssh-client wget nginx supervisor curl git php7.0-fpm php7.0-common php7.0-mysql php7.0-mcrypt php7.0-gd php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-curl php7.0-json php7.0-zip" && \
-apt-get -y install $BUILD_PACKAGES && 
+apt-get -y install $BUILD_PACKAGES && \
 apt-get remove --purge -y software-properties-common && \
 apt-get autoremove -y && \
 apt-get clean && \
