@@ -1,4 +1,4 @@
-FROM ubuntu:16.04:latest
+FROM ubuntu:16.04
 MAINTAINER Peerasan Buranasanti <peerasan@gmail.com>
 
 # php7.0
