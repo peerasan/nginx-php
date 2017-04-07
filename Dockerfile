@@ -14,9 +14,10 @@ nginx=stable && \
 add-apt-repository ppa:nginx/$nginx && \
 apt-get update && \
 apt-get upgrade -y && \
-BUILD_PACKAGES="supervisor openssh-client wget nginx supervisor curl git ffmpeg nodejs php7.0-fpm php7.0-common php7.0-mysql php7.0-mcrypt php7.0-gd php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-curl php7.0-json php7.0-zip php7.0-mbstring" && \
+BUILD_PACKAGES="supervisor openssh-client wget nginx supervisor curl git ffmpeg php7.0-fpm php7.0-common php7.0-mysql php7.0-mcrypt php7.0-gd php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-curl php7.0-json php7.0-zip php7.0-mbstring" && \
 apt-get -y install $BUILD_PACKAGES && \
-curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
+apt-get install -y nodejs && \
 npm install --yes --force-yes -g bower && \
 apt-get remove --purge -y software-properties-common && \
 apt-get autoremove -y && \
@@ -44,14 +45,16 @@ sed -i -e "s/pm.max_children = 5/pm.max_children = 9/g" /etc/php/7.0/fpm/pool.d/
 sed -i -e "s/pm.start_servers = 2/pm.start_servers = 3/g" /etc/php/7.0/fpm/pool.d/www.conf && \
 sed -i -e "s/pm.min_spare_servers = 1/pm.min_spare_servers = 2/g" /etc/php/7.0/fpm/pool.d/www.conf && \
 sed -i -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" /etc/php/7.0/fpm/pool.d/www.conf && \
-sed -i -e "s/pm.max_requests = 500/pm.max_requests = 200/g" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i -e "s/pm.max_requests = 500/pm.max_requests = 200/g" /etc/php/7.0/fpm/pool.d/www.conf && \
+/etc/init.d/php7.0-fpm start
+
 
 # fix ownership of sock file for php-fpm
 RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0750/g" /etc/php/7.0/fpm/pool.d/www.conf && \
 find /etc/php/7.0/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
 
 # mycrypt conf
-RUN phpenmod 7.0 mcrypt
+#RUN phpenmod 7.0 mcrypt
 
 # nginx site conf
 RUN rm -Rf /etc/nginx/conf.d/* && \
