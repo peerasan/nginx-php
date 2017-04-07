@@ -14,8 +14,9 @@ nginx=stable && \
 add-apt-repository ppa:nginx/$nginx && \
 apt-get update && \
 apt-get upgrade -y && \
-BUILD_PACKAGES="supervisor openssh-client wget nginx supervisor curl git php7.0-fpm php7.0-common php7.0-mysql php7.0-mcrypt php7.0-gd php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-curl php7.0-json php7.0-zip" && \
+BUILD_PACKAGES="supervisor openssh-client wget nginx supervisor curl git ffmpeg nodejs bower php7.0-fpm php7.0-common php7.0-mysql php7.0-mcrypt php7.0-gd php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-curl php7.0-json php7.0-zip php7.0-mbstring" && \
 apt-get -y install $BUILD_PACKAGES && \
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
 apt-get remove --purge -y software-properties-common && \
 apt-get autoremove -y && \
 apt-get clean && \
